@@ -1,7 +1,7 @@
-import { setLocalStorage } from './utils.mjs';
-import ProductData from './ProductData.mjs';
+import { setLocalStorage } from "./utils.mjs";
+import ProductData from "./ProductData.mjs";
 
-const dataSource = new ProductData('tents');
+const dataSource = new ProductData("tents");
 
 function addProductToCart(product) {
   // Retrieve the current cart from local storage
@@ -19,8 +19,7 @@ function addProductToCart(product) {
   setLocalStorage("so-cart", cart);
 }
 
-
 // add listener to Add to Cart button
 document
-  .getElementById('addToCart')
-  .addEventListener('click', addToCartHandler);
+  .getElementById("addToCart")
+  .addEventListener("click", addToCartHandler);
