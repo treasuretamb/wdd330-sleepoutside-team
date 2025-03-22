@@ -88,9 +88,21 @@ button {
   margin: auto;
   display: block;
   border: 0;
+  border-radius: 4px;
   font-size: var(--large-font);
   cursor: pointer;
 }
+
+button:hover {
+  background-color: #2a2e0a;
+}
+
+button:active {
+  transform: translateY(2px);
+}
+
+
+
 .divider {
   border-bottom: 2px solid var(--primary-color);
 }
@@ -110,7 +122,77 @@ button {
   fill: gray;
 }
 
+.discount-badge {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 5px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.cart-icon {
+  position: relative;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: var(--secondary-color);
+  color: white;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 12px;
+  font-weight: bold;
+  display: none;  /* Hidden by default */
+}
+
 /* End cart icon styles */
+
+/* pop ups */
+
+.alert-popup {
+  position: fixed;
+  background-color: var(--primary-color);
+  color: white;
+  top: 50px;
+  right: 20px;
+  padding: 1em 1.5em;
+  border-radius: 4px;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.5s ease-out;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.alert-popup.fade-out {
+  opacity: 0;
+}
+
+.toast-message {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary-color); 
+  color: white;
+  padding: 1em 1.5em;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.5s ease-out;
+}
+
+.toast-message.fade-out {
+  opacity: 0;
+}
+
+
+/* end of popups */
 
 .mission {
   padding: 0 0.5em;
