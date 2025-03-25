@@ -1,11 +1,7 @@
 export default class ProductData {
-  constructor(pathOrCategory) {
-    
-    if (pathOrCategory.includes('.json')) {
-      this.path = pathOrCategory;
-    } else {
-      this.path = `/json/${pathOrCategory}.json`;
-    }
+  constructor(category) {
+    this.category = category;
+    this.path = `/json/${category}.json`;
   }
 
   async getData() {
@@ -13,11 +9,13 @@ export default class ProductData {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    
     return await response.json();
   }
 
   async findProductById(id) {
     const products = await this.getData();
-    return products.find(item => item.Id === id);
+    // Compare IDs as strings for consistency
+    return products.find(item => String(item.Id) === String(id));
   }
 }
