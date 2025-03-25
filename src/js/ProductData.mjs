@@ -4,7 +4,7 @@ export default class ProductData {
     if (pathOrCategory.includes('.json')) {
       this.path = pathOrCategory;
     } else {
-      this.path = `../json/${pathOrCategory}.json`;
+      this.path = `/json/${pathOrCategory}.json`;
     }
   }
 

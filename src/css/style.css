@@ -21,6 +21,7 @@ body {
   font-family: var(--font-body);
   font-size: var(--font-base);
   color: var(--dark-grey);
+  overflow-x: hidden;
 }
 img {
   max-width: 100%;
@@ -49,6 +50,7 @@ header {
 }
 .hero {
   position: relative;
+  text-align: center;
 }
 .hero .logo {
   position: absolute;
@@ -156,10 +158,11 @@ button:active {
 
 .alert-popup {
   position: fixed;
+  top: 50px;
+  /* Calculate the right margin of the centered container plus 20px offset */
+  right: calc((100vw - 1080px) / 2 + 20px);
   background-color: var(--primary-color);
   color: white;
-  top: 50px;
-  right: 20px;
   padding: 1em 1.5em;
   border-radius: 4px;
   z-index: 1000;
@@ -167,6 +170,7 @@ button:active {
   transition: opacity 0.5s ease-out;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
+
 
 .alert-popup.fade-out {
   opacity: 0;
@@ -286,7 +290,8 @@ button:active {
 
 @media screen and (min-width: 500px) {
   body {
-    max-width: 1080px;
+    width: 100%;
+    /* max-width: 1080px; */
     margin: auto;
   }
   .mission {
