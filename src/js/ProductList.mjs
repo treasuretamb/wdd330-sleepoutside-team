@@ -1,50 +1,6 @@
 import { renderListWithTemplate } from './utils.mjs';
 
-function showAlertPopup(duration = 3000) {
-  
-  const alerts = [
-    {
-      message: 'Free shipping on orders over $50!'
-    }
-  ];
-  
-  alerts.forEach(alert => {
-    const alertDiv = document.createElement('div');
-    alertDiv.className = 'alert-popup';
-    alertDiv.textContent = alert.message;
-    alertDiv.style.background = alert.background;
-    alertDiv.style.color = alert.color;
-    document.body.appendChild(alertDiv);
-    setTimeout(() => {
-      alertDiv.classList.add('fade-out');
-      setTimeout(() => {
-        alertDiv.remove();
-      }, 500);
-    }, duration);
-  });
-}
-
-export function productCardTemplate(product) {
-  let discountHtml = '';
-  if (product.FinalPrice < product.SuggestedRetailPrice) {
-    const discountAmount = (product.SuggestedRetailPrice - product.FinalPrice).toFixed(2);
-    discountHtml = `<span class='discount-indicator'>Discount: $${discountAmount}</span>`;
-  }
-  return `
-    <li class='product-card'>
-      <a href='product_pages/index.html?id=${product.Id}'>
-        <img src='${product.Image}' alt='Image of ${product.Name}' />
-        <h3 class='card__brand'>${product.Brand.Name}</h3>
-        <h2 class='card__name'>${product.Name}</h2>
-        <div class='product-description'>${product.DescriptionHtmlSimple}</div>
-        <p class='product-card__price'>$${product.FinalPrice}</p>
-        ${discountHtml}
-      </a>
-    </li>
-  `;
-}
-
-export default class ProductList {
+export default class ProductListing {
   constructor(category, dataSource, listElement) {
     this.category = category;
     this.dataSource = dataSource;
@@ -52,14 +8,31 @@ export default class ProductList {
   }
 
   async init() {
-    // Displaying using alert popup using hard coded data
-    showAlertPopup();
-    // Fetch product data and render the list
-    const list = await this.dataSource.getData();
-    this.renderList(list);
+    try {
+      const list = await this.dataSource.getData(this.category);
+      console.log('Data fetched for category', this.category, list);
+      const filteredList = this.filterList(list);
+      console.log('Filtered list:', filteredList);
+      renderListWithTemplate(this.productCardTemplate.bind(this), this.listElement, filteredList);
+    } catch (error) {
+      console.error('Error loading product data:', error);
+    }
   }
 
-  renderList(list) {
-    renderListWithTemplate(productCardTemplate, this.listElement, list, 'afterbegin', true);
+  productCardTemplate(product) {
+    // Use the PrimaryMedium image if availabl otherwise fallback
+    const imageSrc = (product.Images && product.Images.PrimaryMedium) || '/images/placeholder.jpg';
+    return `<li class="product-card">
+      <a href="/product_pages/index.html?product=${product.Id}">
+        <img src="${imageSrc}" alt="Image of ${product.Name}" class="product-image">
+        <h3 class="card__brand">${product.Brand.Name}</h3>
+        <h2 class="card__name">${product.Name}</h2>
+        <p class="product-card__price">$${parseFloat(product.FinalPrice).toFixed(2)}</p>
+      </a>
+    </li>`;
+  }
+
+  filterList(list) {
+    return list.slice(0, 4);
   }
 }
