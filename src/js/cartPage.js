@@ -1,4 +1,3 @@
-// src/js/cartPage.js
 import { loadHeaderFooter } from './utils.mjs';
 import ShoppingCart from './ShoppingCart.mjs';
 
