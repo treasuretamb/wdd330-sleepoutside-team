@@ -205,6 +205,49 @@ button:active {
   max-width: 600px;
   margin: auto;
 }
+
+/* categories css */
+
+.categories {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.category-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap; /* Ensures responsiveness on smaller screens */
+}
+
+.category-container a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #333; /* Adjust color as needed */
+  transition: transform 0.3s ease-in-out;
+}
+
+.category-container a:hover {
+  transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+.category-container img {
+  width: 80px; /* Adjust size as needed */
+  height: auto;
+}
+
+.category-container p {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* end of categories css */
+
+/* products css */
+
 .products {
   padding: 0.5em;
 }

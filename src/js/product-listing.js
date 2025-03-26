@@ -1,16 +1,19 @@
-import { loadHeaderFooter } from './utils.mjs';
+import { loadHeaderFooter, getParam } from './utils.mjs';
 import ProductData from './ProductData.mjs';
 import ProductList from './ProductList.mjs';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // Load the dynamic header and footer first
+  // Load dynamic header and footer
   await loadHeaderFooter();
 
-  // Set the category 
-  const category = 'tents';
-  
-  // Create an instance of ProductData that fetches from tents.json
+  // Get the category from the URL if provided or default to tents.json
+  const category = getParam('category') || 'tents';
+  console.log('Active category:', category);
+
+  // Create an instance of ProductData that fetches product data
   const dataSource = new ProductData(category);
+  
+  // Get the product list container element
   const listElement = document.querySelector('.product-list');
   if (!listElement) {
     console.error('Element with class `product-list` not found');

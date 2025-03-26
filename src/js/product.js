@@ -44,7 +44,7 @@ function getProductIdFromUrl() {
 
 function renderProductDetails(product) {
   const container = document.querySelector('.product-detail');
-  // Compute discount if applicable
+  // Compute discount where applicable
   let discountHtml = '';
   if (product.FinalPrice < product.SuggestedRetailPrice) {
     const discountAmount = (product.SuggestedRetailPrice - product.FinalPrice).toFixed(2);

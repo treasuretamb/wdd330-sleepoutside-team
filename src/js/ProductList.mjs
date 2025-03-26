@@ -1,6 +1,6 @@
 import { renderListWithTemplate } from './utils.mjs';
 
-export default class ProductListing {
+export default class ProductList {
   constructor(category, dataSource, listElement) {
     this.category = category;
     this.dataSource = dataSource;
@@ -9,19 +9,28 @@ export default class ProductListing {
 
   async init() {
     try {
+      // Fetch the product data for the given category
       const list = await this.dataSource.getData(this.category);
       console.log('Data fetched for category', this.category, list);
+      // show the first 4 products:
       const filteredList = this.filterList(list);
       console.log('Filtered list:', filteredList);
-      renderListWithTemplate(this.productCardTemplate.bind(this), this.listElement, filteredList);
+      // Render the product cards
+      renderListWithTemplate(
+        this.productCardTemplate.bind(this),
+        this.listElement,
+        filteredList,
+      );
     } catch (error) {
       console.error('Error loading product data:', error);
     }
   }
 
   productCardTemplate(product) {
-    // Use the PrimaryMedium image if availabl otherwise fallback
-    const imageSrc = (product.Images && product.Images.PrimaryMedium) || '/images/placeholder.jpg';
+    // Use PrimaryMedium for product listing images
+    const imageSrc =
+      (product.Images && product.Images.PrimaryMedium) ||
+      '/images/placeholder.jpg';
     return `<li class="product-card">
       <a href="/product_pages/index.html?product=${product.Id}">
         <img src="${imageSrc}" alt="Image of ${product.Name}" class="product-image">
@@ -33,6 +42,7 @@ export default class ProductListing {
   }
 
   filterList(list) {
+    // For now, show only the first 4 products
     return list.slice(0, 4);
   }
 }
