@@ -1,7 +1,12 @@
-import ProductData from '../js/ProductData.mjs';
-import { getLocalStorage, setLocalStorage, updateCartCount, loadHeaderFooter } from '../js/utils.mjs';
+import ExternalServices from '../js/ExternalServices.mjs';
+import {
+  getLocalStorage,
+  setLocalStorage,
+  updateCartCount,
+  loadHeaderFooter,
+} from '../js/utils.mjs';
 
-loadHeaderFooter(); 
+loadHeaderFooter();
 
 function showToast(message, duration = 3000) {
   const toast = document.createElement('div');
@@ -16,25 +21,29 @@ function showToast(message, duration = 3000) {
   }, duration);
 }
 
-const dataSource = new ProductData('tents');
+const dataSource = new ExternalServices('tents');
 const productId = getProductIdFromUrl();
 console.log('Product ID from URL:', productId);
 
 if (productId) {
-  dataSource.findProductById(productId, 'tents')
+  dataSource
+    .findProductById(productId, 'tents')
     .then((product) => {
       if (!product) {
-        document.querySelector('.product-detail').innerHTML = '<p>Product not found.</p>';
+        document.querySelector('.product-detail').innerHTML =
+          '<p>Product not found.</p>';
         return;
       }
       renderProductDetails(product);
     })
     .catch((err) => {
       console.error('Error fetching product:', err);
-      document.querySelector('.product-detail').innerHTML = '<p>Error loading product details.</p>';
+      document.querySelector('.product-detail').innerHTML =
+        '<p>Error loading product details.</p>';
     });
 } else {
-  document.querySelector('.product-detail').innerHTML = '<p>Invalid product ID.</p>';
+  document.querySelector('.product-detail').innerHTML =
+    '<p>Invalid product ID.</p>';
 }
 
 function getProductIdFromUrl() {
@@ -47,10 +56,12 @@ function renderProductDetails(product) {
   // Compute discount where applicable
   let discountHtml = '';
   if (product.FinalPrice < product.SuggestedRetailPrice) {
-    const discountAmount = (product.SuggestedRetailPrice - product.FinalPrice).toFixed(2);
+    const discountAmount = (
+      product.SuggestedRetailPrice - product.FinalPrice
+    ).toFixed(2);
     discountHtml = `<p class='discount-indicator'>Discount: $${discountAmount}</p>`;
   }
-  
+
   container.innerHTML = `
     <h2>${product.Name}</h2>
     <img src="${product.Image}" alt="Image of ${product.Name}" />
@@ -59,13 +70,17 @@ function renderProductDetails(product) {
     ${discountHtml}
     <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
   `;
-  
-  document.querySelector('#addToCart').addEventListener('click', () => addToCart(product));
+
+  document
+    .querySelector('#addToCart')
+    .addEventListener('click', () => addToCart(product));
 }
 
 function addToCart(product) {
   let cart = getLocalStorage('so-cart') || [];
-  let existingItem = cart.find(item => String(item.Id) === String(product.Id));
+  let existingItem = cart.find(
+    (item) => String(item.Id) === String(product.Id),
+  );
   if (existingItem) {
     existingItem.quantity += 1;
   } else {

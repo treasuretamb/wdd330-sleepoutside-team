@@ -1,5 +1,5 @@
 import { loadHeaderFooter, getParam } from './utils.mjs';
-import ProductData from './ProductData.mjs';
+import ExternalServices from './ExternalServices.mjs';
 import ProductList from './ProductList.mjs';
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -10,16 +10,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   const category = getParam('category') || 'tents';
   console.log('Active category:', category);
 
-  // Create an instance of ProductData that fetches product data
-  const dataSource = new ProductData(category);
-  
+  const dataSource = new ExternalServices(category);
+
   // Get the product list container element
   const listElement = document.querySelector('.product-list');
   if (!listElement) {
     console.error('Element with class `product-list` not found');
     return;
   }
-  
+
   // Create and initialize the product listing
   const productList = new ProductList(category, dataSource, listElement);
   await productList.init();
