@@ -5,21 +5,26 @@ function convertToJson(res) {
   throw new Error('Bad Response');
 }
 
-export default class ProductData {
-  constructor() {
-  }
-
-  // Fetch product data for a given category from the API.
+export default class ExternalServices {
+  // API endpoints constructed dynamically
   async getData(category) {
     const response = await fetch(`${baseURL}products/search/${category}`);
     const data = await convertToJson(response);
-    // The API returns the data wrapped in a "Result" array.
     return data.Result;
   }
 
-  // Find a product by its ID within a given category.
   async findProductById(id, category) {
     const products = await this.getData(category);
-    return products.find(item => String(item.Id) === String(id));
+    return products.find(p => String(p.Id) === String(id));
+  }
+
+  async checkoutOrder(orderData) {
+    const options = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderData)
+    };
+    const response = await fetch(`${baseURL}checkout`, options);
+    return await response.json();
   }
 }
